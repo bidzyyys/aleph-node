@@ -45,6 +45,9 @@ runs:
   using: "composite"
 
   steps:
+    - name: Print disk space
+      run: df -Th
+
     - name: Restore cargo cache
       uses: actions/cache@v3
       with:
@@ -53,6 +56,9 @@ runs:
         key: ${{ runner.os }}-cargo-${{ inputs.cargo-key }}-${{ inputs.cache-version }}-${{ hashFiles('**/Cargo.lock') }}
         restore-keys: |
           ${{ runner.os }}-cargo-${{ inputs.cargo-key }}-${{ inputs.cache-version }}
+
+    - name: Print disk space
+      run: df -Th
 
     - name: Restore target cache
       uses: actions/cache@v3
@@ -63,6 +69,9 @@ runs:
         key: ${{ runner.os }}-target-${{ inputs.target-key }}-${{ inputs.cache-version }}-${{ hashFiles('**/Cargo.lock') }}
         restore-keys: |
           ${{ runner.os }}-target-${{ inputs.target-key }}-${{ inputs.cache-version }}
+
+    - name: Print disk space
+      run: df -Th
 
     - name: Install sccache for ubuntu-latest
       shell: bash
@@ -77,6 +86,9 @@ runs:
         
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+    - name: Print disk space
+      run: df -Th
+      
     - name: Restore sccache
       uses: actions/cache@v3
       with:
@@ -85,12 +97,18 @@ runs:
         restore-keys: |
           ${{ runner.os }}-sccache-${{ inputs.target-key }}-${{ inputs.cache-version }}
 
+    - name: Print disk space
+      run: df -Th
+
     - name: Start sccache server
       env:
         SCCACHE_CACHE_SIZE: ${{ inputs.sccache-size }}
       shell: bash
       run: sccache --start-server
 
+    - name: Print disk space
+      run: df -Th
+  
     - name: Set RUSTC_WRAPPER
       shell: bash
       run: |
@@ -101,3 +119,7 @@ runs:
       with:
         command: install
         args: cargo-cache
+
+    - name: Print disk space
+      run: df -Th
+      
