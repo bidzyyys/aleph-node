@@ -46,6 +46,7 @@ runs:
 
   steps:
     - name: Print disk space
+      shell: bash
       run: df -Th
 
     - name: Restore cargo cache
@@ -58,6 +59,7 @@ runs:
           ${{ runner.os }}-cargo-${{ inputs.cargo-key }}-${{ inputs.cache-version }}
 
     - name: Print disk space
+      shell: bash
       run: df -Th
 
     - name: Restore target cache
@@ -71,6 +73,7 @@ runs:
           ${{ runner.os }}-target-${{ inputs.target-key }}-${{ inputs.cache-version }}
 
     - name: Print disk space
+      shell: bash
       run: df -Th
 
     - name: Install sccache for ubuntu-latest
@@ -87,6 +90,7 @@ runs:
         echo "$HOME/.local/bin" >> $GITHUB_PATH
 
     - name: Print disk space
+      shell: bash
       run: df -Th
       
     - name: Restore sccache
@@ -98,6 +102,7 @@ runs:
           ${{ runner.os }}-sccache-${{ inputs.target-key }}-${{ inputs.cache-version }}
 
     - name: Print disk space
+      shell: bash
       run: df -Th
 
     - name: Start sccache server
@@ -107,6 +112,7 @@ runs:
       run: sccache --start-server
 
     - name: Print disk space
+      shell: bash
       run: df -Th
   
     - name: Set RUSTC_WRAPPER
@@ -121,5 +127,6 @@ runs:
         args: cargo-cache
 
     - name: Print disk space
+      shell: bash
       run: df -Th
       
